@@ -1,0 +1,9 @@
+{
+    "name": "octree-viewer",
+    "version": "0.0.1",
+    "dependencies": {
+        "lodash": "*",
+        "socket.io": "*",
+        "node-static": "*"
+    }
+}

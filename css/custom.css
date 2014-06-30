@@ -1,0 +1,17 @@
+.control-panel {
+}
+.control-panel-button-row {
+    padding-top: 17px
+}
+.control-panel-button {
+    margin-bottom: 25px;
+}
+
+.three-js-canvas {
+    border: thick solid #000000;
+    height: 100%;
+    width: 100%
+}
+.three-js-column {
+    padding-top: 16px;
+}
