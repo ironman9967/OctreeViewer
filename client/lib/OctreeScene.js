@@ -68,11 +68,11 @@ OctreeScene.prototype._startRenderer = function () {
     render();
 };
 
-OctreeScene.prototype._leaves = function (event, leaves) {
+OctreeScene.prototype._leaves = function (event, leafBoxes) {
     var instance = this;
     var lookAt = true;
-    _.each(leaves, function (leaf) {
-        instance._addBox(leaf, {
+    _.each(leafBoxes, function (leafBox) {
+        instance._addBox(leafBox, {
             lookAt: lookAt
         });
         lookAt = false;
@@ -81,8 +81,8 @@ OctreeScene.prototype._leaves = function (event, leaves) {
 
 OctreeScene.prototype._values = function (event, values) {
     var instance = this;
-    _.each(values, function (leaf) {
-        instance._addBox(leaf, {
+    _.each(values, function (value) {
+        instance._addBox(value.BoundingBox, {
             wireframe: false,
             addCenterDot: false
         });

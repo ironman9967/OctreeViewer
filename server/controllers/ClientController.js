@@ -30,7 +30,7 @@ ClientController.prototype._insertValue = function (valueModel) {
 };
 
 ClientController.prototype._query = function () {
-    this.emit.apply(([ 'query' ]).concat(_.toArray(arguments)).concat([ this._socket ]));
+    this.emit.apply(this, ([ 'query' ]).concat(_.toArray(arguments)).concat([ this._socket ]));
 };
 
 ClientController.prototype._dispose = function () {

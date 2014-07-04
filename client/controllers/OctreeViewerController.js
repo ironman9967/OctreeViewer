@@ -10,7 +10,7 @@ var OctreeViewerController = function ($rootScope, OctreeFactory) {
 
     listenToButtons($rootScope, socket);
     listenToSocketEvents($rootScope, socket);
-    startQueryLoop(socket, 5000);
+    startQueryLoop(socket, 100);
 };
 
 function setCanvasSize($rootScope) {
@@ -25,11 +25,21 @@ function monitorScreenSize($rootScope, OctreeFactory, delay) {
     }, delay);
 }
 
+var x = 3;
+var y = 3;
+var z = 3;
+
 function listenToButtons($rootScope, socket) {
     $rootScope.$on('insertValue', function () {
         socket.emit('insertValue', new OctreeValueModel(JSON.stringify({
             my: "value"
-        }), new BoxModel(new PointModel(3, 3, 3), 1, 1, 1)));
+        }), new BoxModel(new PointModel(x, y, z), 1, 1, 1)));
+        x = Math.random() > .5 ? 1 : -1;
+        y = Math.random() > .5 ? 1 : -1;
+        z = Math.random() > .5 ? 1 : -1;
+        x = Math.random() * 10 * x;
+        y = Math.random() * 10 * y;
+        z = Math.random() * 10 * z;
     });
 }
 

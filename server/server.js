@@ -1,4 +1,6 @@
 
+var _ = require('lodash');
+
 var fileServer = require('./servers/FileServer');
 fileServer.listen(80);
 

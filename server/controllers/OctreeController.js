@@ -37,9 +37,9 @@ OctreeController.prototype._insertValue = function () {
 OctreeController.prototype._query = function (socket) {
     this._octree.emit('query', function (values) {
         var models = [];
-        _.reduce(values, function (v, value) {
-            v.push(OctreeValueFactory.ToOctreeValueModel(value));
-        }, models);
+        _.each(values, function (value) {
+            models.push(OctreeValueFactory.ToOctreeValueModel(value));
+        });
         socket.emit('values', models);
     });
 };
