@@ -2,7 +2,10 @@
 var _ = require('lodash');
 
 var fileServer = require('./servers/FileServer');
-fileServer.listen(80);
+fileServer.on('error', function (error) {
+    console.log(error);
+});
+fileServer.listen(8080);
 
 var OctreeController = require('./controllers/OctreeController');
 var SocketController = require('./servers/SocketServer');

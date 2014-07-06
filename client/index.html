@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/custom.css">
-        <script src="client/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="vendor/modernizr-2.6.2.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
     </head>
     <body>
@@ -39,34 +39,34 @@
             </div>
         </div>
 
-        <script src="client/plugins.js"></script>
+        <script src="plugins.js"></script>
 
         <!-- *** vendor CDNs *** -->
-        <script>window.jQuery || document.write('<script src="client/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="vendor/jquery-1.10.2.min.js"><\/script>')</script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.13/angular.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
 
         <!-- *** vendors *** -->
-        <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+        <script src="../node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
 
         <!-- *** lib *** -->
-        <script src="client/lib/OctreeScene.js"></script>
+        <script src="lib/OctreeScene.js"></script>
 
         <!-- *** models ***-->
-        <script src="infrastructure/models/Geometry/PointModel.js"></script>
-        <script src="infrastructure/models/Geometry/Shapes/BoxModel.js"></script>
-        <script src="infrastructure/models/Octree/OctreeValueModel.js"></script>
+        <script src="../infrastructure/models/Geometry/PointModel.js"></script>
+        <script src="../infrastructure/models/Geometry/Shapes/BoxModel.js"></script>
+        <script src="../infrastructure/models/Octree/OctreeValueModel.js"></script>
 
         <!-- *** controllers *** -->
-        <script src="client/controllers/ControlPanelController.js"></script>
-        <script src="client/controllers/OctreeViewerController.js"></script>
+        <script src="controllers/ControlPanelController.js"></script>
+        <script src="controllers/OctreeViewerController.js"></script>
 
         <!-- *** factories *** -->
-        <script src="client/factories/OctreeFactory.js"></script>
+        <script src="factories/OctreeFactory.js"></script>
 
         <!-- *** main *** -->
-        <script src="client/main.js"></script>
+        <script src="main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.
         <script>
