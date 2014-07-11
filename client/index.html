@@ -23,13 +23,36 @@
                 <div ng-controller="ControlPanelController" class="col-xs-2 control-panel">
                     <div class="container-fluid">
                         <div class="row control-panel-button-row">
-                            <button ng-click="buttonClicked($event)" id="insertValue" class="btn btn-primary btn-block btn-danger control-panel-button">Insert Value</button>
-                            <button ng-click="buttonClicked($event)" id="cameraXup" class="btn btn-primary btn-block btn-danger control-panel-button">Camera X +</button>
-                            <button ng-click="buttonClicked($event)" id="cameraXdn" class="btn btn-primary btn-block btn-danger control-panel-button">Camera X -</button>
-                            <button ng-click="buttonClicked($event)" id="cameraYup" class="btn btn-primary btn-block btn-danger control-panel-button">Camera Y +</button>
-                            <button ng-click="buttonClicked($event)" id="cameraYdn" class="btn btn-primary btn-block btn-danger control-panel-button">Camera Y -</button>
-                            <button ng-click="buttonClicked($event)" id="cameraZup" class="btn btn-primary btn-block btn-danger control-panel-button">Camera Z +</button>
-                            <button ng-click="buttonClicked($event)" id="cameraZdn" class="btn btn-primary btn-block btn-danger control-panel-button">Camera Z -</button>
+                            <button ng-click="insertClicked()" id="insertValue" class="btn btn-primary btn-block btn-danger control-panel-button">Insert Value</button>
+                        </div>
+                        <div class="row control-panel-button-row">
+                            <div class="col-xs-4">
+                                <span class="label label-default">X: </span><input class="form-control" size="1" type="text" ng-model="cordX">
+                            </div>
+                            <div class="col-xs-4">
+                                <span class="label label-default">Y: </span><input class="form-control" size="1" type="text" ng-model="cordY">
+                            </div>
+                            <div class="col-xs-4">
+                                <span class="label label-default">Z: </span><input class="form-control" size="1" type="text" ng-model="cordZ">
+                            </div>
+                        </div>
+                        <div class="row control-panel-button-row">
+                            <button ng-click="buttonClicked($event)" id="cameraXup" class="btn btn-primary btn-block btn-danger control-panel-camera-button">Camera X +</button>
+                        </div>
+                        <div class="row control-panel-button-row">
+                            <button ng-click="buttonClicked($event)" id="cameraXdn" class="btn btn-primary btn-block btn-danger control-panel-camera-button">Camera X -</button>
+                        </div>
+                        <div class="row control-panel-button-row">
+                            <button ng-click="buttonClicked($event)" id="cameraYup" class="btn btn-primary btn-block btn-danger control-panel-camera-button">Camera Y +</button>
+                        </div>
+                        <div class="row control-panel-button-row">
+                            <button ng-click="buttonClicked($event)" id="cameraYdn" class="btn btn-primary btn-block btn-danger control-panel-camera-button">Camera Y -</button>
+                        </div>
+                        <div class="row control-panel-button-row">
+                            <button ng-click="buttonClicked($event)" id="cameraZup" class="btn btn-primary btn-block btn-danger control-panel-camera-button">Camera Z +</button>
+                        </div>
+                        <div class="row control-panel-button-row">
+                            <button ng-click="buttonClicked($event)" id="cameraZdn" class="btn btn-primary btn-block btn-danger control-panel-camera-button">Camera Z -</button>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 
-function OctreeValueModel(value, boundBoxModel) {
+function OctreeValueModel(id, value, boundBoxModel) {
+    this.id = id;
     this.Value = value;
     this.BoundingBox = boundBoxModel;
 }

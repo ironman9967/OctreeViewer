@@ -23,6 +23,7 @@ ClientController.prototype._setupEvents = function () {
 ClientController.prototype._setupSocketEvents = function () {
     this.ListenToAnother('insertValue', this._socket);
     this.ListenToAnother('query', this._socket);
+    this.ListenToAnother('newId', this._socket);
 };
 
 ClientController.prototype._insertValue = function (valueModel) {
@@ -31,6 +32,10 @@ ClientController.prototype._insertValue = function (valueModel) {
 
 ClientController.prototype._query = function () {
     this.emit.apply(this, ([ 'query' ]).concat(_.toArray(arguments)).concat([ this._socket ]));
+};
+
+ClientController.prototype._newId = function (callback) {
+    callback(octree.helpers.wid.create());
 };
 
 ClientController.prototype._dispose = function () {

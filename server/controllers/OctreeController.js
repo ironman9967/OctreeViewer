@@ -15,7 +15,7 @@ function OctreeController(io) {
     this._io = io;
     this._octree = octree.createTree();
 
-    this._broadcastLeavesDelay = 5000;
+    this._broadcastLeavesDelay = 100;
     this._leafBroadcasterTimeout = void 0;
 
     this._setupEvents();
@@ -28,6 +28,7 @@ OctreeController.prototype._setupEvents = function () {
     this.Listen('query');
 
     this.ListenToAnother('rootInitialized', this._octree);
+    this.ListenToAnother('valueInserted', this._octree);
 };
 
 OctreeController.prototype._insertValue = function () {
@@ -42,6 +43,10 @@ OctreeController.prototype._query = function (socket) {
         });
         socket.emit('values', models);
     });
+};
+
+OctreeController.prototype._valueInserted = function (value) {
+    this._io.emit('valueInserted', OctreeValueFactory.ToOctreeValueModel(value));
 };
 
 OctreeController.prototype._rootInitialized = function () {

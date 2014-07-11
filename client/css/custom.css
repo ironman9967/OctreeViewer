@@ -4,7 +4,13 @@
     padding-top: 17px
 }
 .control-panel-button {
-    margin-bottom: 25px;
+    margin-bottom: 5px;
+}
+.control-panel-camera-button {
+    margin-bottom: 3px;
+}
+.control-panel-cord-label {
+    color: #bdbdbd;
 }
 
 .three-js-canvas {

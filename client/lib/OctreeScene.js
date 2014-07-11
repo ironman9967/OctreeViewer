@@ -56,12 +56,6 @@ OctreeScene.prototype._updateCameraAspect = function ($rootScope) {
 OctreeScene.prototype._startRenderer = function () {
     var instance = this;
     var render = function () {
-
-        //TODO: remove
-        _.each(instance._meshes, function (mesh) {
-            instance._scene.remove(mesh);
-        });
-
         requestAnimationFrame(render);
         instance._renderer.render(instance._scene, instance._camera);
     };
