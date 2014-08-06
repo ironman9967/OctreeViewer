@@ -8,6 +8,6 @@ var ControlPanelController = function ($rootScope, $scope) {
         $rootScope.$emit(clickEvent.currentTarget.id);
     };
     $scope.insertClicked = function () {
-        $rootScope.$emit('insertValue', $scope.cordX, $scope.cordY, $scope.cordZ);
+        $rootScope.$emit('insertValue', parseInt($scope.cordX), parseInt($scope.cordY), parseInt($scope.cordZ));
     };
 };

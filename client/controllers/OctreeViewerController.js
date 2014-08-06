@@ -29,7 +29,7 @@ function listenToButtons($rootScope, socket) {
     $rootScope.$on('insertValue', function (event, x, y, z) {
         var valueBox = new BoxModel(new PointModel(x, y, z), 1, 1, 1);
         console.log("Attempting value insert at: ", valueBox.Center);
-        socket.once('valueInserted', function (value) {
+        socket.on('valueInserted', function (value) {
             console.log("Value inserted at: ", value.BoundingBox.Center);
         });
         socket.emit('newId', function (id) {
@@ -41,8 +41,10 @@ function listenToButtons($rootScope, socket) {
 }
 
 function listenToSocketEvents($rootScope, socket) {
+    emitOnRootScope('newRoot', $rootScope, socket);
+    emitOnRootScope('leafAdded', $rootScope, socket);
+    emitOnRootScope('leafRemoved', $rootScope, socket);
     emitOnRootScope('values', $rootScope, socket);
-    emitOnRootScope('leaves', $rootScope, socket);
 }
 
 function emitOnRootScope(eventName, $rootScope, socket) {

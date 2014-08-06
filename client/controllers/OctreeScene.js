@@ -14,18 +14,26 @@ var OctreeScene = function ($rootScope) {
         color: 0xff0000
     });
 
-    this._meshes = [];
+    this._octreeValues = [];
+    this._octreeLeaves = [];
 
     this._setupEvents($rootScope);
 };
 
 OctreeScene.prototype._setupEvents = function ($rootScope) {
     var instance = this;
-    $rootScope.$on('leaves', function () {
-        instance._leaves.apply(instance, arguments);
+
+    $rootScope.$on('newRoot', function () {
+        instance._newRoot.apply(instance, _.rest(arguments));
+    });
+    $rootScope.$on('leafAdded', function () {
+        instance._leafAdded.apply(instance, _.rest(arguments));
+    });
+    $rootScope.$on('leafRemoved', function () {
+        instance._leafRemoved.apply(instance, _.rest(arguments));
     });
     $rootScope.$on('values', function () {
-        instance._values.apply(instance, arguments);
+        instance._values.apply(instance, _.rest(arguments));
     });
 
     this._listenForCameraEvents($rootScope);
@@ -62,28 +70,59 @@ OctreeScene.prototype._startRenderer = function () {
     render();
 };
 
-OctreeScene.prototype._leaves = function (event, leafBoxes) {
-    var instance = this;
-    var lookAt = true;
-    _.each(leafBoxes, function (leafBox) {
-        instance._addBox(leafBox, {
-            lookAt: lookAt
-        });
-        lookAt = false;
+OctreeScene.prototype._newRoot = function (boxInfo) {
+    this._leafAdded(boxInfo);
+};
+
+OctreeScene.prototype._leafAdded = function (boxInfo) {
+    var box = boxInfo.box;
+    this._octreeLeaves.push({
+        id: boxInfo.id,
+        meshes: this._addBox(box)
     });
 };
 
-OctreeScene.prototype._values = function (event, values) {
+OctreeScene.prototype._leafRemoved = function (boxId) {
+    var tempLeaves = [];
+    var found = true;
     var instance = this;
+    _.each(this._octreeLeaves, function (l) {
+        if (l.id !== boxId) {
+            tempLeaves.push(l);
+        }
+        else {
+            found = true;
+            _.each(l.meshes, function (mesh) {
+                instance._scene.remove(mesh);
+            });
+        }
+    });
+    if (found) {
+        instance._octreeLeaves = tempLeaves;
+    }
+};
+
+OctreeScene.prototype._values = function (values) {
+    var instance = this;
+    _.each(this._octreeValues, function (value) {
+        _.each(value.meshes, function (mesh) {
+            instance._scene.remove(mesh);
+        });
+    });
+    this._octreeValues = [];
     _.each(values, function (value) {
-        instance._addBox(value.BoundingBox, {
-            wireframe: false,
-            addCenterDot: false
+        instance._octreeValues.push({
+            id: value.id,
+            meshes: instance._addBox(value.BoundingBox, {
+                wireframe: false,
+                addCenterDot: false
+            })
         });
     });
 };
 
 OctreeScene.prototype._addBox = function (box, opt) {
+    var meshes = [];
     if (_.isUndefined(opt)) opt = {};
     opt = {
         lookAt: !_.isUndefined(opt.lookAt) ? opt.lookAt : false,
@@ -98,30 +137,18 @@ OctreeScene.prototype._addBox = function (box, opt) {
         var centerDot = new THREE.SphereGeometry(.25);
         var centerDotMesh = new THREE.Mesh(centerDot, this._solidMaterial);
         centerDotMesh.position.set(box.Center.X, box.Center.Y, box.Center.Z);
+        this._scene.add(centerDotMesh);
+        meshes.push(centerDotMesh);
     }
 
-    this._meshes[box.id] = mesh;
-
     this._scene.add(mesh);
-    this._scene.add(centerDotMesh);
+    meshes.push(mesh);
 
     if (opt.lookAt) {
         this._camera.lookAt(new THREE.Vector3(box.Center.X, box.Center.Y, box.Center.Z));
     }
-};
 
-OctreeScene.prototype._removeBox = function (id) {
-    var temp = [];
-    var instance = this;
-    _.each(this._meshes, function (mesh) {
-        if (id !== mesh.id) {
-            temp.push(mesh);
-        }
-        else {
-            instance._scene.remove(mesh);
-        }
-    });
-    this._meshes = temp;
+    return meshes;
 };
 
 OctreeScene.prototype._listenForCameraEvents = function ($rootScope) {

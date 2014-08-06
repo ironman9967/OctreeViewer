@@ -15,9 +15,6 @@ function OctreeController(io) {
     this._io = io;
     this._octree = octree.createTree();
 
-    this._broadcastLeavesDelay = 100;
-    this._leafBroadcasterTimeout = void 0;
-
     this._setupEvents();
 }
 util.inherits(OctreeController, octree.helpers.eventer);
@@ -26,9 +23,12 @@ OctreeController.prototype._setupEvents = function () {
     this._eventer._setupEvents.call(this);
     this.Listen('insertValue');
     this.Listen('query');
+    this.Listen('newClient');
 
-    this.ListenToAnother('rootInitialized', this._octree);
+    this.ListenToAnother('newRoot', this._octree);
     this.ListenToAnother('valueInserted', this._octree);
+    this.ListenToAnother('leafAdded', this._octree);
+    this.ListenToAnother('leafRemoved', this._octree);
 };
 
 OctreeController.prototype._insertValue = function () {
@@ -45,40 +45,33 @@ OctreeController.prototype._query = function (socket) {
     });
 };
 
+OctreeController.prototype._newClient = function (socket) {
+    //TODO: send new client all leaves
+};
+
 OctreeController.prototype._valueInserted = function (value) {
     this._io.emit('valueInserted', OctreeValueFactory.ToOctreeValueModel(value));
 };
 
-OctreeController.prototype._rootInitialized = function () {
-    this._broadcastLeaves();
-};
-
-OctreeController.prototype._broadcastLeaves = function () {
-    this._emitLeaves();
-    var instance = this;
-    this._leafBroadcasterTimeout = setTimeout(function () {
-        instance._emitLeaves(function () {
-            instance._broadcastLeaves();
-        });
-    }, this._broadcastLeavesDelay);
-};
-
-OctreeController.prototype._emitLeaves = function (callback) {
-    var instance = this;
-    this._octree.emit('getLeafBoundingBoxes', function (boxes) {
-        var models = [];
-        _.each(boxes, function (box) {
-            models.push(BoxFactory.ToBoxModel(box));
-        });
-        instance._io.sockets.emit('leaves', models);
-        if (!_.isUndefined(callback)) {
-            callback();
-        }
+OctreeController.prototype._newRoot = function (leaf) {
+    this._io.emit('newRoot', {
+        id: leaf.id,
+        box: BoxFactory.ToBoxModel(leaf.BoundingBox)
     });
 };
 
+OctreeController.prototype._leafAdded = function (leaf) {
+    this._io.emit('leafAdded', {
+        id: leaf.id,
+        box: BoxFactory.ToBoxModel(leaf.BoundingBox)
+    });
+};
+
+OctreeController.prototype._leafRemoved = function (leaf) {
+    this._io.emit('leafRemoved', leaf.id);
+};
+
 OctreeController.prototype._dispose = function () {
-    clearTimeout(this._leafBroadcasterTimeout);
     this._eventer._dispose.apply(this, arguments);
 };
 
